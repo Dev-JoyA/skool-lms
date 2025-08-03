@@ -11,3 +11,13 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```
+
+## Registration Deployed Txn hash
+```shell
+0xdcd42cA3B9286BC08e5FeB0125196c0AEbad2416
+```
+
+## Registration verified address
+```shell
+ https://sepolia-blockscout.lisk.com/address/0xdcd42cA3B9286BC08e5FeB0125196c0AEbad2416#code
+ ```
