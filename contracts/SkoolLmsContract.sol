@@ -62,12 +62,16 @@ contract SkoolLmsContract {
     }
 
     function getAllStudent() public {
+        
 
     }
 
-    function getStudentById() public {
-
+    function getStudentById(uint256 _id) public  view returns (Student memory) {
+        require(_id > 0 && _id <= studentCount, "Invalid Student ID");
+        return newStudent[_id];
     }
+
+
 
     function registerCourse() public {
 
