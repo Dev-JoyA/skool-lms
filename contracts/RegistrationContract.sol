@@ -8,17 +8,16 @@ interface IRegistration {
 
 contract RegistrationContract is IRegistration {
     address public principal;
-    uint256 public tuition;
+    uint256 public tuitionFee;
     mapping(address => bool) public isRegistered;
 
     constructor(uint256 _tuition) {
         principal = msg.sender;
-        tuition = _tuition;
+        tuitionFee = _tuition;
     }
 
     function tuitionPayment() external payable {
-        require(msg.value == tuition, "Incorrect tuition amount");
-        isRegistered[msg.sender] = true;
+        require(msg.value == tuitionFee, "Incorrect tuition amount");
     }
 
     function registration() external view returns (bool) {

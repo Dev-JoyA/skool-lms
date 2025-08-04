@@ -1,28 +1,25 @@
 //SPDX-License-Identifier:MIT
 pragma solidity ^ 0.8.28;
 
+import "./RegistrationContract.sol";
+
 contract SkoolLmsContract {
-    address public principal;
+    address payable principal;
     uint256 public tuition;
-    // function for Registration
-    // function to get all student
-    // function to get student by id 
-    // function to register course 
-    //function check result
-    // function grade result
+    IRegistration public registrationContract;
+    uint256 public studentCount;
 
     //library to check if all courses are registered
-
-    //mapping (address => bool) hasPaid
     //Interface
-    // payment, registration, graduated
+    constructor(address _registrationContract){
+        registrationContract = IRegistration(_registrationContract);
+    }
 
-    //error unpaid()
+    error UnPaid();
+    error NotRegistered();
 
-    
-
-    enum Grade {LOWER, UPPER, PASS}
-    enum AdmissionStatus {UNREGISTERED, REGISTERD, DEFERRED, RUSTICATED, GRADUATED}
+    enum Grade {NONE, LOWER, UPPER, PASS}
+    enum AdmissionStatus {UNREGISTERED, REGISTERED, DEFERRED, RUSTICATED, GRADUATED}
     enum PaymentStatus {UNPAID, PAID}
 
     struct Student {
@@ -32,5 +29,55 @@ contract SkoolLmsContract {
         Grade grade;
         AdmissionStatus admissionStatus;
         PaymentStatus paymentStatus;
+    }
+
+    mapping (address => bool) hasPaid;
+    mapping(uint256 => Student) newStudent;
+
+    function payTuition(string memory _name) public payable {
+        require(!hasPaid[msg.sender], "Student Already Paid");
+        registrationContract.tuitionPayment{value: msg.value}();
+        principal.transfer(msg.value);
+
+        hasPaid[msg.sender] = true;
+        studentCount++;
+
+        newStudent[studentCount] =  Student({
+            id : studentCount,
+            name : _name,
+            paymentAddress : msg.sender,
+            grade : Grade.NONE,
+            admissionStatus : AdmissionStatus.UNREGISTERED,
+            paymentStatus : PaymentStatus.PAID
+        });
+        
+    }
+
+    function registerStudent(uint256 _id) public{
+        if(!hasPaid[msg.sender]){
+            revert UnPaid();
+        }
+        require((registrationContract.registration()) == false, "Student Already registered");
+        newStudent[_id].admissionStatus = AdmissionStatus.REGISTERED;
+    }
+
+    function getAllStudent() public {
+
+    }
+
+    function getStudentById() public {
+
+    }
+
+    function registerCourse() public {
+
+    }
+
+    function checkResult() public {
+
+    }
+
+    function gradeResult() public {
+
     }
 }
