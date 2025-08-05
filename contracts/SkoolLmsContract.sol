@@ -2,21 +2,25 @@
 pragma solidity ^ 0.8.28;
 
 import "./RegistrationContract.sol";
+import "./RegisterCourse.sol";
 
 contract SkoolLmsContract {
+    using RegisterCourse for mapping(uint256 => RegisterCourse.Courses);
+
     address payable principal;
     uint256 public tuition;
     IRegistration public registrationContract;
     uint256 public studentCount;
+    uint256[] private studentIds;
 
-    //library to check if all courses are registered
-    //Interface
+
     constructor(address _registrationContract){
         registrationContract = IRegistration(_registrationContract);
     }
 
     error UnPaid();
     error NotRegistered();
+    error CourseNotRegistered();
 
     enum Grade {NONE, LOWER, UPPER, PASS}
     enum AdmissionStatus {UNREGISTERED, REGISTERED, DEFERRED, RUSTICATED, GRADUATED}
@@ -50,6 +54,8 @@ contract SkoolLmsContract {
             admissionStatus : AdmissionStatus.UNREGISTERED,
             paymentStatus : PaymentStatus.PAID
         });
+
+        studentIds.push(studentCount);
         
     }
 
@@ -61,9 +67,8 @@ contract SkoolLmsContract {
         newStudent[_id].admissionStatus = AdmissionStatus.REGISTERED;
     }
 
-    function getAllStudent() public {
-        
-
+    function getAllStudent() public view returns (uint256[] memory){
+        return studentIds;
     }
 
     function getStudentById(uint256 _id) public  view returns (Student memory) {
