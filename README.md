@@ -48,7 +48,7 @@ The **SkoolLmsContract** allows students to pay tuition fees, register themselve
 
 - **SkoolLms Contract Txn Hash:**  
   `0x575141B753eE473722f729D29685951ADCB309ba`  
-  [View on Lisk Sepolia Blockscout](https://sepolia-blockscout.lisk.com/address/0xdcd42cA3B9286BC08e5FeB0125196c0AEbad2416#code)
+  [View on Lisk Sepolia Blockscout](https://sepolia-blockscout.lisk.com/address/0x575141B753eE473722f729D29685951ADCB309ba#code)
 
 ---
 
