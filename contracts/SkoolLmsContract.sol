@@ -12,6 +12,7 @@ contract SkoolLmsContract {
     IRegistration public registrationContract;
     uint256 public studentCount;
     uint256[] private studentIds;
+    mapping(uint256 => RegisterCourse.Courses) public courseMap;
 
 
     constructor(address _registrationContract){
@@ -22,8 +23,8 @@ contract SkoolLmsContract {
     error NotRegistered();
     error CourseNotRegistered();
 
-    enum Grade {NONE, LOWER, UPPER, PASS}
-    enum AdmissionStatus {UNREGISTERED, REGISTERED, DEFERRED, RUSTICATED, GRADUATED}
+    enum Grade {NONE, PASS}
+    enum AdmissionStatus {UNREGISTERED, REGISTERED}
     enum PaymentStatus {UNPAID, PAID}
 
     struct Student {
@@ -78,15 +79,16 @@ contract SkoolLmsContract {
 
 
 
-    function registerCourse() public {
+    function courseRegistration(uint256 _id) public {
+        if(!hasPaid[msg.sender]){
+            revert UnPaid();
+        }
+        if(newStudent[_id].admissionStatus != AdmissionStatus.REGISTERED){
+            revert NotRegistered();
+        }
 
+        courseMap.registerCourse(_id, true, true, true);
+        newStudent[_id].grade = Grade.PASS;
     }
 
-    function checkResult() public {
-
-    }
-
-    function gradeResult() public {
-
-    }
 }
