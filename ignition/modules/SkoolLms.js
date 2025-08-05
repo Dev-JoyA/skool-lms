@@ -3,13 +3,13 @@
 
 const { buildModule } = require("@nomicfoundation/hardhat-ignition/modules");
 
+const registrationAddress = "0xeE82b260269c56E9E74BcD4A48c8eDC70D0Fa010"
 
 module.exports = buildModule("SkoolLmsModule", (m) => {
-  const registrationAddress = "0xdcd42cA3B9286BC08e5FeB0125196c0AEbad2416"
   
-  const _registrationAddress = m.getParameter("_registrationAddress", registrationAddress);
+const _registrationAddress = m.getParameter("_registrationAddress", registrationAddress);
   
-  const lock = m.contract("SkoolLms", [_registrationAddress]);
+  const SkoolLms = m.contract("SkoolLmsContract", [_registrationAddress]);
 
   return { SkoolLms };
 });
